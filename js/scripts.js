@@ -1,15 +1,9 @@
 /*
-*   Author: beshleyua
-*   Author URL: http://themeforest.net/user/beshleyua
-*/
-
-
-/*
 	Preloader
 */
 
 $(window).on("load", function() {
-    var preload = $('.preloader');
+    let preload = $('.preloader');
     preload.find('.spinner').fadeOut(function(){
         preload.fadeOut();
     });
@@ -18,34 +12,32 @@ $(window).on("load", function() {
 $(function () {
     'use strict';
 
+    (function() {emailjs.init("user_ZoRnkIsM6muCzGfYlDHbt");})();
 
     /*
         Vars
     */
-
-    var width = $(window).width();
-    var height = $(window).height();
-
+    let width = $(window).width();
+    let height = $(window).height();
 
     /*
         Header Menu Desktop
     */
-
-    var container = $('.container');
-    var card_items = $('.card-inner');
-    var animation_in = container.data('animation-in');
-    var animation_out = container.data('animation-out');
+    let container = $('.container');
+    let card_items = $('.card-inner');
+    let animation_in = container.data('animation-in');
+    let animation_out = container.data('animation-out');
 
     $('.top-menu').on('click', 'a', function(){
 
         /* vars */
-        var width = $(window).width();
-        var id = $(this).attr('href');
-        var h = parseFloat($(id).offset().top);
-        var card_item = $(id);
-        var menu_items = $('.top-menu li');
-        var menu_item = $(this).closest('li');
-        var d_lnk = $('.lnks .lnk.discover');
+        let width = $(window).width();
+        let id = $(this).attr('href');
+        let h = parseFloat($(id).offset().top);
+        let card_item = $(id);
+        let menu_items = $('.top-menu li');
+        let menu_item = $(this).closest('li');
+        let d_lnk = $('.lnks .lnk.discover');
 
         if((width >= 1024)) {
 
@@ -84,8 +76,8 @@ $(function () {
     });
 
     $(window).on('resize', function(){
-        var width = $(window).width();
-        var height = $(window).height();
+        let width = $(window).width();
+        let height = $(window).height();
 
         if((width < 1024)) {
             $('.card-inner').removeClass('hidden');
@@ -98,10 +90,10 @@ $(function () {
             $('.card-inner').removeClass('animated');
 
             $(window).on('scroll', function(){
-                var scrollPos = $(window).scrollTop();
+                let scrollPos = $(window).scrollTop();
                 $('.top-menu ul li a').each(function () {
-                    var currLink = $(this);
-                    var refElement = $(currLink.attr("href"));
+                    let currLink = $(this);
+                    let refElement = $(currLink.attr("href"));
                     if (refElement.offset().top - 76 <= scrollPos) {
                         $('.top-menu ul li').removeClass("active");
                         currLink.closest('li').addClass("active");
@@ -127,10 +119,10 @@ $(function () {
 
     if((width < 1024) & $('#home-card').length) {
         $(window).on('scroll', function(){
-            var scrollPos = $(window).scrollTop();
+            let scrollPos = $(window).scrollTop();
             $('.top-menu ul li a').each(function () {
-                var currLink = $(this);
-                var refElement = $(currLink.attr("href"));
+                let currLink = $(this);
+                let refElement = $(currLink.attr("href"));
                 if (refElement.offset().top - 76 <= scrollPos) {
                     $('.top-menu ul li').removeClass("active");
                     currLink.closest('li').addClass("active");
@@ -164,7 +156,7 @@ $(function () {
         Initialize masonry items
     */
 
-    var $container = $('.grid-items');
+    let $container = $('.grid-items');
 
     $container.imagesLoaded(function() {
         $container.multipleFilterMasonry({
@@ -179,7 +171,6 @@ $(function () {
     /*
         12. Initialize masonry filter
     */
-
     $('.filter-button-group').on('change', 'input[type="radio"]', function() {
         if ($(this).is(':checked')) {
             $('.f_btn').removeClass('active');
@@ -315,22 +306,19 @@ $(function () {
         },
         success: "valid",
         submitHandler: function() {
-            $.ajax({
-                url: 'mailer/feedback.php',
-                type: 'post',
-                dataType: 'json',
-                data: 'name='+ $("#cform").find('input[name="name"]').val() + '&email='+ $("#cform").find('input[name="email"]').val() + '&message=' + $("#cform").find('textarea[name="message"]').val(),
-                beforeSend: function() {
+            let templateParams = {
+                from_name: $("#contact_name").val(),
+                reply_to: $("#contact_email").val(),
+                message: $("#contact_message").val()
+            };
 
-                },
-                complete: function() {
-
-                },
-                success: function(data) {
+            emailjs.send('service_whrn7kq', 'template_7yp0etc', templateParams)
+                .then(function(response) {
                     $('#cform').fadeOut();
                     $('.alert-success').delay(1000).fadeIn();
-                }
-            });
+                }, function(error) {
+                    $('.alert-error').delay(1000).fadeIn();
+                });
         }
     });
 
@@ -366,7 +354,7 @@ $(function () {
     /*
         Tesimonials Carousel
     */
-    var revs_slider = $(".revs-carousel.default-revs .owl-carousel");
+    let revs_slider = $(".revs-carousel.default-revs .owl-carousel");
 
     revs_slider.owlCarousel({
         margin: 0,
@@ -380,7 +368,7 @@ $(function () {
         dots: true
     });
 
-    var rtl_revs_slider = $(".revs-carousel.rtl-revs .owl-carousel");
+    let rtl_revs_slider = $(".revs-carousel.rtl-revs .owl-carousel");
 
     rtl_revs_slider.owlCarousel({
         margin: 0,
@@ -411,13 +399,13 @@ $(function () {
     });
 
     $('.theme_panel .layout_style').on('click', 'a', function(){
-        var color = $(this).attr('data-color');
+        let color = $(this).attr('data-color');
 
         $('head').append('<link rel="stylesheet" href="css/template-colors/'+color+'.css" />');
     });
 
     $('.theme_panel .dark_style').on('click', 'a', function(){
-        var dark = $(this).attr('data-dark');
+        let dark = $(this).attr('data-dark');
 
         if(dark == 'dark') {
             $('head').append('<link rel="stylesheet" href="css/template-dark/dark.css" />');
@@ -435,8 +423,8 @@ $(function () {
 */
 
 function initMap() {
-    var myLatlng = new google.maps.LatLng(40.773328,-73.960088); // <- Your latitude and longitude
-    var styles = [
+    let myLatlng = new google.maps.LatLng(40.773328,-73.960088); // <- Your latitude and longitude
+    let styles = [
         {
             "featureType": "water",
             "stylers": [{
@@ -453,7 +441,7 @@ function initMap() {
             }]
         }]
 
-    var mapOptions = {
+    let mapOptions = {
         zoom: 14,
         center: myLatlng,
         mapTypeControl: false,
@@ -463,8 +451,8 @@ function initMap() {
         styles: styles
     }
 
-    var map = new google.maps.Map(document.getElementById('map'), mapOptions);
-    var marker = new google.maps.Marker({
+    let map = new google.maps.Map(document.getElementById('map'), mapOptions);
+    let marker = new google.maps.Marker({
         position: myLatlng,
         map: map,
         title: 'We are here!'
